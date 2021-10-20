@@ -1,0 +1,52 @@
+.content {
+  display: inline-block;
+  text-align: center;
+  width: 100vw;
+}
+
+.cow,
+.sheep,
+.horse {
+  float: left;
+  background-color: #fff;
+  margin: 15px;
+  width: 30px;
+  height: 30px;
+}
+
+.cow {
+ border-radius: 30px;
+ background-color: black;
+}
+
+.horse {
+  transform: rotate(45deg);
+  background-color: brown;
+}
+
+.left-field,
+.right-field {
+  overflow-y: scroll;
+  width: 40%;
+  height: calc(100vh - 110px);
+  background-color: darkseagreen;
+  border: 5px dashed brown;
+}
+
+.left-field {
+  float: left;
+}
+.right-field {
+  float: right;
+}
+
+.navigation {
+  text-align: center;
+  height: 95px;
+  width: 100%;
+}
+
+button {
+  padding: 4px 15px;
+  margin: 10px;
+}
