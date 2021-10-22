@@ -7,6 +7,7 @@ function App() {
 
     const[animal, setAnimal] = useState([]);
     const[farm, setFarm] = useState(1);
+    const[executed, setExecuted] = useState(0);
 
     const pickFarm = (e) => {
         console.log(typeof e.target.value)
@@ -19,10 +20,28 @@ function App() {
             id: genId(),
             farm: farm,
             animal: a,
-            weight: 30
+            weight: 0
         });
         setAnimal(animalCopy);
         localStorage.setItem('animals',    JSON.stringify(animalCopy));
+    }
+
+    const removeAnimal = (id) => {
+        const animalCopy = animal.slice();
+        const ind = animalCopy.findIndex(e => e.id === id);
+        animalCopy.splice(ind, 1);
+        setAnimal(animalCopy);
+        localStorage.setItem('animals',    JSON.stringify(animalCopy));
+        setExecuted(executed + 1);
+    }
+
+    const addWeight = (id, weight) => {
+        const animalCopy = animal.slice();
+        const ind = animalCopy.findIndex(e => e.id === id);
+        animalCopy[ind].weight = weight;
+        setAnimal(animalCopy);
+        localStorage.setItem('animals',    JSON.stringify(animalCopy));
+        document.getElementById(id).value = '';
     }
 
     return(
@@ -35,9 +54,9 @@ function App() {
                     <div className="stat-val">Horses: <span>{count('horse')}</span></div>
                 </div>
                 <div className="stat-block">
-                    <div className="stat-val">Total animal: <span>{count('all')}</span></div>
+                    <div className="stat-val">Total animals: <span>{count('all')}</span></div>
                     <div className="stat-val">Total weight: <span>{count('weight')}</span></div>
-                    <div className="stat-val">Total2: <span>10</span></div>
+                    <div className="stat-val">Executed: <span>{executed}</span></div>
                 </div>
             </div>
 
@@ -47,7 +66,7 @@ function App() {
                 <div className='field'>
                     {animal.map((e, ind) => 
                         {if(e.farm === 1) 
-                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight} removeAnimal={removeAnimal} addWeight={addWeight}/>);
                             return '';
                         } 
                     )}
@@ -55,7 +74,7 @@ function App() {
                 <div className="field">
                     {animal.map((e, ind) => 
                         {if(e.farm === 2) 
-                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight} removeAnimal={removeAnimal} addWeight={addWeight}/>);
                             return '';
                         } 
                     )}
@@ -63,7 +82,7 @@ function App() {
                 <div className="field">
                     {animal.map((e, ind) => 
                         {if(e.farm === 3) 
-                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight} removeAnimal={removeAnimal} addWeight={addWeight}/>);
                             return '';
                         } 
                     )}
