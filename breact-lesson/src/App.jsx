@@ -1,40 +1,69 @@
 import Animals from "./components/Animals";
 import { useState } from "react";
+import genId from "./js/genId";
+import count from "./js/count";
 
 function App() {
 
     const[animal, setAnimal] = useState([]);
-    const[farm, setFarm] = useState('left');
+    const[farm, setFarm] = useState(1);
 
-    const pickFarm = (f) => {
-        setFarm(f);
+    const pickFarm = (e) => {
+        console.log(typeof e.target.value)
+        setFarm(parseInt(e.target.value));
     }
 
     const addAnimal = (a) => {
         const animalCopy = animal.slice();
         animalCopy.push({
+            id: genId(),
             farm: farm,
-            animal: a
+            animal: a,
+            weight: 30
         });
         setAnimal(animalCopy);
+        localStorage.setItem('animals',    JSON.stringify(animalCopy));
     }
 
     return(
         <>
+            <div className="stats-title">STATISTICS:</div>
+            <div className="stats">
+                <div className="stat-block">
+                    <div className="stat-val">Cows: <span>{count('cow')}</span></div>
+                    <div className="stat-val">Sheeps: <span>{count('sheep')}</span></div>
+                    <div className="stat-val">Horses: <span>{count('horse')}</span></div>
+                </div>
+                <div className="stat-block">
+                    <div className="stat-val">Total animal: <span>{count('all')}</span></div>
+                    <div className="stat-val">Total weight: <span>{count('weight')}</span></div>
+                    <div className="stat-val">Total2: <span>10</span></div>
+                </div>
+            </div>
+
+
             <div className="content">
   
-                <div className='left-field'>
+                <div className='field'>
                     {animal.map((e, ind) => 
-                        {if(e.farm === 'left') 
-                            return(<Animals key={ind} animal={e.animal}/>);
+                        {if(e.farm === 1) 
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
                             return '';
                         } 
                     )}
                 </div>
-                <div className="right-field">
+                <div className="field">
                     {animal.map((e, ind) => 
-                        {if(e.farm === 'right') 
-                            return(<Animals key={ind} animal={e.animal}/>);
+                        {if(e.farm === 2) 
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
+                            return '';
+                        } 
+                    )}
+                </div>
+                <div className="field">
+                    {animal.map((e, ind) => 
+                        {if(e.farm === 3) 
+                            return(<Animals key={ind} animal={e.animal} id={e.id} weight={e.weight}/>);
                             return '';
                         } 
                     )}
@@ -43,8 +72,13 @@ function App() {
 
                 <div className="navigation">
                     <div className="field-buttons">
-                        <button onClick={() => pickFarm('left')}>Left Field</button>
-                        <button onClick={() => pickFarm('right')}>Right Field</button>
+                        <select value={farm} onChange={pickFarm}>
+                            <option value={1}>Farm 1</option>
+                            <option value={2}>Farm 2</option>
+                            <option value={3}>Farm 3</option>
+                        </select>
+                        {/* <button onClick={() => pickFarm(1)}>Left Field</button>
+                        <button onClick={() => pickFarm(2)}>Right Field</button> */}
                     </div>
                     <div className="animal-buttons">
                         <button onClick={() => addAnimal('cow')}>Cow</button>
