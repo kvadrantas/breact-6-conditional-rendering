@@ -1,4 +1,5 @@
 function count (filter) {
+    if (null === localStorage.getItem('lastId')) return 0;
     const animals = JSON.parse(localStorage.getItem('animals'));
 
     let totalWeight = 0;

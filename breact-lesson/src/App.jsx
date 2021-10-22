@@ -1,5 +1,5 @@
 import Animals from "./components/Animals";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import genId from "./js/genId";
 import count from "./js/count";
 
@@ -43,6 +43,12 @@ function App() {
         localStorage.setItem('animals',    JSON.stringify(animalCopy));
         document.getElementById(id).value = '';
     }
+
+    useEffect(() => {
+        const animals = localStorage.getItem('animals');
+        if (null !== animals)
+            setAnimal(JSON.parse(animals));
+    }, []);
 
     return(
         <>
