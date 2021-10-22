@@ -20,7 +20,8 @@ function App() {
             id: genId(),
             farm: farm,
             animal: a,
-            weight: 0
+            weight: 0,
+            executed
         });
         setAnimal(animalCopy);
         localStorage.setItem('animals',    JSON.stringify(animalCopy));
@@ -33,6 +34,23 @@ function App() {
         setAnimal(animalCopy);
         localStorage.setItem('animals',    JSON.stringify(animalCopy));
         setExecuted(executed + 1);
+        localStorage.setItem('executed', executed + 1);
+    }
+
+    const removeAnimals = (breed) => {
+        const animalCopy = animal.slice();
+        let removedCount = 0;
+        while (true) {
+            const ind = animalCopy.findIndex(e => e.animal === breed);
+            if (ind < 0) break;
+            animalCopy.splice(ind, 1);
+            removedCount++;
+        }
+        
+        setAnimal(animalCopy);
+        localStorage.setItem('animals',    JSON.stringify(animalCopy));
+        setExecuted(executed + removedCount);
+        localStorage.setItem('executed', executed + removedCount);
     }
 
     const addWeight = (id, weight) => {
@@ -46,8 +64,10 @@ function App() {
 
     useEffect(() => {
         const animals = localStorage.getItem('animals');
+        const executed = localStorage.getItem('executed');
         if (null !== animals)
             setAnimal(JSON.parse(animals));
+            setExecuted(JSON.parse(executed));
     }, []);
 
     return(
@@ -96,20 +116,31 @@ function App() {
 
 
                 <div className="navigation">
-                    <div className="field-buttons">
+
+                    <fieldset>
+                        <legend>Add</legend>
+                        <div className="field-buttons">
                         <select value={farm} onChange={pickFarm}>
                             <option value={1}>Farm 1</option>
                             <option value={2}>Farm 2</option>
                             <option value={3}>Farm 3</option>
                         </select>
-                        {/* <button onClick={() => pickFarm(1)}>Left Field</button>
-                        <button onClick={() => pickFarm(2)}>Right Field</button> */}
                     </div>
-                    <div className="animal-buttons">
+                        <div className="animal-buttons">
                         <button onClick={() => addAnimal('cow')}>Cow</button>
                         <button onClick={() => addAnimal('sheep')}>Sheep</button>
                         <button onClick={() => addAnimal('horse')}>Horse</button>
                     </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Remove</legend>
+                        <div className="animal-buttons">
+                        <button onClick={() => removeAnimals('cow')}>All cows</button>
+                        <button onClick={() => removeAnimals('sheep')}>All sheeps</button>
+                        <button onClick={() => removeAnimals('horse')}>All horses</button>
+                    </div>
+                    </fieldset>
+                    
                 </div>
             </div>
         </>
