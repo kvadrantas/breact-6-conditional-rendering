@@ -80,13 +80,13 @@ function App() {
             setExecuted(JSON.parse(executed));
     }, []);
 
-    async function html() {
-        const html1 = await fetch('http://localhost:3003/animals');
-        console.log(html1);
-    }
+    // async function html() {
+    //     const html1 = await fetch('http://localhost:3003/animals');
+    //     console.log(html1);
+    // }
 
-    // console.log(await html());
-    html();
+    // // console.log(await html());
+    // html();
 
     return(
         <>

@@ -1,7 +1,7 @@
 // const express = require('express')
 import express, { json } from "express";
 const app = express()
-const port = 3003
+const port = 2547
 
 // const mysql = require('mysql')
 import mysql from "mysql";
@@ -16,7 +16,7 @@ app.use(express.urlencoded({
 app.use(express.json());
 
 const con = mysql.createConnection({
-    host: "localhost",
+    host: "192.168.2.65",
     user: "zoo",
     password: "Laikinas1",
     database: "zoo",
